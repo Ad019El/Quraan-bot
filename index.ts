@@ -4,8 +4,9 @@ import cors from "cors";
 import morgan from "morgan";
 import { isProduction } from "./server/utils/constant";
 dotenv.config();
-import { specs, swaggerUi } from "./swagger";
 import { errorHandler } from "./server/middleware/error.handling.middleware";
+import { connectMongoDB } from "./server/config/db";
+import mainRoutes from "./server/routes/index";
 
 const app: Application = express();
 const port = process.env.PORT || 3000;
@@ -16,13 +17,15 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Error Handling Middleware
-app.use(errorHandler)
+app.use(errorHandler);
 
-app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(specs));
 app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to Express & TypeScript Server");
+  res.send("Welcome Quraan bot API");
 });
+app.use("/api/v1", mainRoutes);
 
-app.listen(port, () => {
-  console.log(`Server is Fire at http://localhost:${port}`);
+connectMongoDB().then(() => {
+  app.listen(port, () => {
+    console.log(`Server is Fire at http://localhost:${port}`);
+  });
 });
