@@ -7,6 +7,8 @@ dotenv.config();
 import { errorHandler } from "./server/middleware/error.handling.middleware";
 import { connectMongoDB } from "./server/config/db";
 import mainRoutes from "./server/routes/index";
+import './server/bot';
+import { messages } from "./server/bot/utils/messages";
 
 const app: Application = express();
 const port = process.env.PORT || 3000;
@@ -20,7 +22,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(errorHandler);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome Quraan bot API");
+  res.send(messages.welcome);
 });
 app.use("/api/v1", mainRoutes);
 
