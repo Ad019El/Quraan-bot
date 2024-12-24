@@ -1,35 +1,38 @@
+# docker-compose.yml
 version: '3.8'
 
 services:
   app:
-    build: .
+    build:
+      context: .  
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
-      - NODE_ENV=production
-      - MONGODB_URI=mongodb://mongodb:27017/Learning
-      - PORT=3000
+      - MONGODB_URI=${MONGODB_URI}
+      - PORT=${PORT}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
-    depends_on:
-      - mongodb
+    # depends_on:
+    #   - mongodb
     volumes:
-      - .:/app
-      - /app/node_modules
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+      - /usr/src/app/dist
     networks:
       - app-network
 
-  mongodb:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongodb_data:/data/db
-    networks:
-      - app-network
+  # mongodb:
+  #   image: mongo:latest
+  #   ports:
+  #     - "27017:27017"
+  #   volumes:
+  #     - mongodb_data:/data/db
+  #   networks:
+  #     - app-network
 
 networks:
   app-network:
     driver: bridge
 
-volumes:
-  mongodb_data:
+# volumes:
+#   mongodb_data:
