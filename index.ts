@@ -7,8 +7,9 @@ dotenv.config();
 import { errorHandler } from "./server/middleware/error.handling.middleware";
 import { connectMongoDB } from "./server/config/db";
 import mainRoutes from "./server/routes/index";
-import './server/bot';
 import { messages } from "./server/bot/utils/messages";
+import './server/bot';
+import './server/utils/cron.job'
 
 const app: Application = express();
 const port = process.env.PORT || 3000;

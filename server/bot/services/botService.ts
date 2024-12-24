@@ -1,23 +1,16 @@
-import TelegramBot from 'node-telegram-bot-api';
-import { handleStart } from '../commands/start';
-import { handleHelp } from '../commands/help';
-import { QuranCommands } from '../commands/quran';
-import { QuranService } from './quranService';
+import TelegramBot from "node-telegram-bot-api";
+import { handleStart } from "../commands/start";
+import { handleHelp } from "../commands/help";
+import { handleRandomVerse } from "../commands/quran";
 
-export class BotService {
-  private quranCommands: QuranCommands;
+export const initializeBot = (token: string) => {
+    const bot = new TelegramBot(token, { polling: true });
 
-  constructor(private bot: TelegramBot) {
-    const quranService = new QuranService();
-    this.quranCommands = new QuranCommands(bot, quranService);
-    this.initializeCommands();
-  }
-
-  private initializeCommands() {
-    this.bot.onText(/\/start/, (msg) => handleStart(this.bot, msg));
-    this.bot.onText(/\/help/, (msg) => handleHelp(this.bot, msg));
-    this.bot.onText(/\/random/, (msg) => this.quranCommands.handleRandomVerse(msg));
-    // log all messages
-    this.bot.onText(/.*/, (msg) => console.log(msg.text));
-  }
-}
+    // Setup command handlers
+    bot.onText(/\/start/, (msg) => handleStart(bot, msg));
+    bot.onText(/\/help/, (msg) => handleHelp(bot, msg));
+    bot.onText(/\/random/, (msg) => handleRandomVerse(bot, msg));
+    bot.onText(/.*/, (msg) => console.log(msg.text));
+  
+    return bot;
+  };
