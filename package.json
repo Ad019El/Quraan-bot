@@ -7,8 +7,7 @@
   "description": "A simple telegram bot that sends a random ayah with tafsir from the quraan",
   "scripts": {
     "clean": "rm -rf dist/",
-    "copy-env": "cp .env dist/",
-    "build": "npm run clean && npx tsc && npm run copy-env",
+    "build": "npm run clean && npx tsc",
     "start": "node dist/index.js",
     "dev": "nodemon index.ts"
   },
