@@ -9,7 +9,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - MONGODB_URI=mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@mongodb:5001/Quraan?authSource=admin
+      - MONGODB_URI=${MONGODB_URI}
       - PORT=${PORT}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
     depends_on:
