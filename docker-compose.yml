@@ -12,8 +12,8 @@ services:
       - MONGODB_URI=${MONGODB_URI}
       - PORT=${PORT}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
-    # depends_on:
-    #   - mongodb
+    depends_on:
+      - mongodb
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
@@ -21,18 +21,18 @@ services:
     networks:
       - app-network
 
-  # mongodb:
-  #   image: mongo:latest
-  #   ports:
-  #     - "27017:27017"
-  #   volumes:
-  #     - mongodb_data:/data/db
-  #   networks:
-  #     - app-network
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - app-network
 
 networks:
   app-network:
     driver: bridge
 
-# volumes:
-#   mongodb_data:
+volumes:
+  mongodb_data:

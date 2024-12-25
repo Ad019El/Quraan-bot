@@ -7,7 +7,8 @@ import { QuranResponse } from "../types/bot.types";
 export const getRandomAyahWithTafsir = async (): Promise<QuranResponse | undefined> => {
   try {
     const surah = await Surah.aggregate([{ $sample: { size: 1 } }]);
-    const edition = await Edition.find({ identifier: "quran-uthmani-quran-academy" });
+    // todo add edition for tafsir as a parameter
+    const edition = await Edition.find({ identifier: "quran-simple" });
     const tafsirEdition = await Edition.find({ identifier: "ar.muyassar" });
 
     const ayah = await Ayah.aggregate([
