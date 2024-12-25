@@ -9,15 +9,11 @@ services:
     ports:
       - "3000:3000"
     environment:
-      - MONGODB_URI=${MONGODB_URI}
+      - MONGODB_URI=mongodb://${MONGODB_USER}:${MONGODB_PASSWORD}@mongodb:5001/Quraan?authSource=admin
       - PORT=${PORT}
       - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
     depends_on:
       - mongodb
-    volumes:
-      - .:/usr/src/app
-      - /usr/src/app/node_modules
-      - /usr/src/app/dist
     networks:
       - app-network
 
@@ -31,6 +27,8 @@ services:
     volumes:
       - mongodb_data:/data/db
     command: mongod --auth
+    networks:
+      - app-network
 
 networks:
   app-network:
