@@ -1,10 +1,12 @@
-import Ayah from "../../models/quraan/ayah.model";
+import { Ayah, Tafsir } from "../../models/quraan/ayah.model";
 import Edition from "../../models/quraan/edition.model";
 import Page from "../../models/quraan/page.model";
 import Surah from "../../models/quraan/surah.model";
 import { QuranResponse } from "../types/bot.types";
 
-export const getRandomAyahWithTafsir = async (): Promise<QuranResponse | undefined> => {
+export const getRandomAyahWithTafsir = async (): Promise<
+  QuranResponse | undefined
+> => {
   try {
     const surah = await Surah.aggregate([{ $sample: { size: 1 } }]);
     // todo add edition for tafsir as a parameter
@@ -16,7 +18,7 @@ export const getRandomAyahWithTafsir = async (): Promise<QuranResponse | undefin
       { $sample: { size: 1 } },
     ]);
 
-    const ayahTafsir = await Ayah.aggregate([
+    const ayahTafsir = await Tafsir.aggregate([
       { $match: { number: ayah[0].number, edition: tafsirEdition[0]._id } },
     ]);
 

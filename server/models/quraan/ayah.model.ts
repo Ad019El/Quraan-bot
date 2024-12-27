@@ -54,5 +54,31 @@ const ayahSchema = new mongoose.Schema({
   },
 });
 
+const tafsirSchema = new mongoose.Schema({
+  number: {
+    type: Number,
+    required: true,
+  },
+  numberInSurat: {
+    type: Number,
+    required: true,
+  },
+  text: {
+    type: String,
+    required: true,
+  },
+  surah: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Surah',
+    required: true,
+  },
+  edition: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Edition',
+    required: true,
+  },
+});
+
 const Ayah = mongoose.model("Ayah", ayahSchema);
-export default Ayah;
+const Tafsir = mongoose.model("Tafsir", tafsirSchema);
+export { Ayah, Tafsir };
