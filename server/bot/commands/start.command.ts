@@ -1,16 +1,16 @@
 import TelegramBot from 'node-telegram-bot-api';
-import Chat from '../../models/chat';
+import Chat from '../../models/chat.model';
+import { messages } from '../utils/messages.utils';
 
 export const handleStart = async (bot: TelegramBot, msg: TelegramBot.Message) => {
   const chatId = msg.chat.id;
-
   // store chat information in mongodb 
   // check if the chat already exists
   const existingChat = await Chat.findOne({ chatId: chatId });
   if (existingChat) {
     await bot.sendMessage(
       chatId,
-      'Welcome back to Quran Bot! Use /help to see available commands.'
+      messages.welcomeBack(msg)
     );
     return;
   }
@@ -29,6 +29,6 @@ export const handleStart = async (bot: TelegramBot, msg: TelegramBot.Message) =>
   
   await bot.sendMessage(
     chatId,
-    'Welcome to Quran Bot! Use /help to see available commands.'
+    messages.welcome(msg)
   );
 };

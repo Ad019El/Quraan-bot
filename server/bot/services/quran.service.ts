@@ -1,7 +1,7 @@
-import Ayah from "../../models/quraan/ayah";
-import Edition from "../../models/quraan/edition";
-import Page from "../../models/quraan/page";
-import Surah from "../../models/quraan/surah";
+import Ayah from "../../models/quraan/ayah.model";
+import Edition from "../../models/quraan/edition.model";
+import Page from "../../models/quraan/page.model";
+import Surah from "../../models/quraan/surah.model";
 import { QuranResponse } from "../types/bot.types";
 
 export const getRandomAyahWithTafsir = async (): Promise<QuranResponse | undefined> => {

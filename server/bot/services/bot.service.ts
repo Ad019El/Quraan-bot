@@ -1,7 +1,7 @@
 import TelegramBot from "node-telegram-bot-api";
-import { handleStart } from "../commands/start";
-import { handleHelp } from "../commands/help";
-import { handleRandomVerse } from "../commands/quran";
+import { handleStart } from "../commands/start.command";
+import { handleHelp } from "../commands/help.command";
+import { handleRandomVerse } from "../commands/quran.command";
 
 export const initializeBot = (token: string) => {
     const bot = new TelegramBot(token, { polling: true });

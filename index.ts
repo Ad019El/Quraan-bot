@@ -7,7 +7,7 @@ dotenv.config();
 import { errorHandler } from "./server/middleware/error.handling.middleware";
 import { connectMongoDB } from "./server/config/db";
 import mainRoutes from "./server/routes/index";
-import { messages } from "./server/bot/utils/messages";
+import { messages } from "./server/bot/utils/messages.utils";
 import './server/bot';
 import './server/utils/cron.job'
 

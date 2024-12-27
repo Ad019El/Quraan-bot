@@ -1,5 +1,5 @@
 import cron from "node-cron";
-import { broadcastVerse } from "../bot/commands/quran";
+import { broadcastVerse } from "../bot/commands/quran.command";
 import bot from "../bot";
 
 cron.schedule("0 7,11,19 * * *", () => broadcastVerse(bot));

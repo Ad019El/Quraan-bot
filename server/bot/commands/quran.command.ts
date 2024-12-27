@@ -1,7 +1,7 @@
 import TelegramBot from "node-telegram-bot-api";
-import { getRandomAyahWithTafsir } from "../services/quranService";
-import Chat from "../../models/chat";
-import { messages } from "../utils/messages";
+import { getRandomAyahWithTafsir } from "../services/quran.service";
+import Chat from "../../models/chat.model";
+import { messages } from "../utils/messages.utils";
 
 export const handleRandomVerse = async (
   bot: TelegramBot,

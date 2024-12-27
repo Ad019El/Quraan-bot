@@ -1,4 +1,4 @@
-import { initializeBot } from "./services/botService";
+import { initializeBot } from "./services/bot.service";
 
 const token = process.env.TELEGRAM_BOT_TOKEN;
 if (!token) {
