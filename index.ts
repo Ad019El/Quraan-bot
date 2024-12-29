@@ -10,15 +10,18 @@ import mainRoutes from "./server/routes/index";
 import { messages } from "./server/bot/utils/messages.utils";
 import './server/bot';
 import './server/utils/cron.job'
+import { limiter } from "./server/middleware/rate.limit.middleware";
 
 const app: Application = express();
 const port = process.env.PORT || 3000;
 
-app.use(process.env.NODE_ENV === 'production' ? morgan("combined") : morgan("dev"));
+app.use(isProduction ? morgan("combined") : morgan("dev"));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Rate Limit Middleware
+app.use(limiter);
 // Error Handling Middleware
 app.use(errorHandler);
 
