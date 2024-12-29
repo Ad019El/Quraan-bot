@@ -8,8 +8,8 @@ import { errorHandler } from "./server/middleware/error.handling.middleware";
 import { connectMongoDB } from "./server/config/db";
 import mainRoutes from "./server/routes/index";
 import { messages } from "./server/bot/utils/messages.utils";
-import './server/bot';
-import './server/utils/cron.job'
+// import './server/bot';
+// import './server/utils/cron.job'
 import { limiter } from "./server/middleware/rate.limit.middleware";
 
 const app: Application = express();
@@ -26,7 +26,7 @@ app.use(limiter);
 app.use(errorHandler);
 
 app.get("/", (req: Request, res: Response) => {
-  res.send(messages.welcome);
+  res.send('Welcome to Quran API');
 });
 app.use("/api/v1", mainRoutes);
 
