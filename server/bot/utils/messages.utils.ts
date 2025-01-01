@@ -1,17 +1,34 @@
 import { Message } from "node-telegram-bot-api";
 import { QuranResponse } from "../types/bot.types";
+import { getChikhOrIdentifier } from "./chikhIdentifier.utils";
 
 export const messages = {
-  welcome: (msg: Message) =>
+  welcome: (msg: Message, chat: any) =>
     [
-      `🕌 مرحبًا بك في بوت القرآن ${msg.chat.username}`,
-      "📚 *الأوامر المتاحة*",
-      "/start - بدء تشغيل البوت",
-      "/random - إختيار عشوائي للآية من القرآن الكريم",
-      "/help - الحصول على مساعدة",
+      `🕌 مرحبًا بك في بوت القرآن ${msg.chat.first_name}`,
+      "",
+      "⚙️ *إعداداتك الحالية:*",
+      `${chat?.preferences?.notifications ? "✅" : "❌"} الإشعارات`,
+      `🎙 القارئ: ${
+        getChikhOrIdentifier(chat?.preferences?.chaikh).identifier || "لم يتم الإختيار"
+      }`,
+      `📖 التفسير: ${chat?.preferences?.tafsir || "الميسر"}`,
+      "",
+      "💡 يمكنك تغيير الإعدادات باستخدام /settings",
     ].join("\n"),
-  welcomeBack: (msg: Message) =>
-    `/help مرحبًا بعودتك إلى بوت القرآن!لعرض الأوامر المتاحة استخدم ,${msg.chat.username}`,
+  welcomeBack: (msg: Message, chat: any) =>
+    [
+      `🕌 مرحبًا بعودتك ${msg.chat.first_name}`,
+      "",
+      "⚙️ *إعداداتك الحالية:*",
+      `${chat?.preferences?.notifications ? "✅" : "❌"} الإشعارات`,
+      `🎙 القارئ: ${
+        getChikhOrIdentifier(chat?.preferences?.chaikh).identifier || "لم يتم الإختيار"
+      }`,
+      `📖 التفسير: ${chat?.preferences?.tafsir || "الميسر"}`,
+      "",
+      "💡 يمكنك تغيير الإعدادات باستخدام /settings",
+    ].join("\n"),
   help: [
     "📚 *الأوامر المتاحة*",
     "/start - بدء تشغيل البوت",

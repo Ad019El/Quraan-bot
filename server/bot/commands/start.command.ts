@@ -11,7 +11,7 @@ export const handleStart = async (bot: TelegramBot, msg: TelegramBot.Message) =>
   if (existingChat) {
     await bot.sendMessage(
       chatId,
-      messages.welcomeBack(msg),
+      messages.welcomeBack(msg, existingChat),
       { reply_markup: keyboards.main }
     );
     return;
@@ -25,13 +25,18 @@ export const handleStart = async (bot: TelegramBot, msg: TelegramBot.Message) =>
     chatUsername: msg.chat.username,
     chatFirstName: msg.chat.first_name,
     date: new Date().toISOString(),
+    preferences: {
+      notifications: true,
+      chaikh: "ar.husarymujawwad",
+      tafsir: "ar.muyassar",
+    },
   })
   
   await chat.save();
   
   await bot.sendMessage(
     chatId,
-    messages.welcome(msg),
+    messages.welcome(msg, chat),
     { reply_markup: keyboards.main }
   );
 };
