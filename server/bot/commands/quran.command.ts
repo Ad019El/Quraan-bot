@@ -1,4 +1,4 @@
-import TelegramBot from "node-telegram-bot-api";
+import TelegramBot, { ChatId } from "node-telegram-bot-api";
 import { getRandomAyahWithTafsir } from "../services/quran.service";
 import Chat from "../../models/chat.model";
 import { messages } from "../utils/messages.utils";
@@ -9,21 +9,18 @@ export const handleRandomVerse = async (
 ) => {
   try {
     const quraan = await getRandomAyahWithTafsir();
-
     if (!quraan) return;
-    await bot.sendMessage(
-      msg?.chat?.id as number,
-      messages.verseMessage(quraan),
-      {
-        parse_mode: "Markdown",
-      }
-    );
-    await bot.sendMessage(
-      msg?.chat?.id as number,
-      messages.tafsirMessage(quraan),
-      {
-        parse_mode: "Markdown",
-      }
+    const message =
+      messages.verseMessage(quraan) +
+      "\n\u200F-----------------\n\n" +
+      messages.tafsirMessage(quraan);
+
+    await bot.sendMessage(msg?.chat?.id as number, message, {
+      parse_mode: "Markdown",
+    });
+    await bot.sendAudio(
+      msg?.chat?.id as ChatId,
+      `https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/${quraan?.ayah?.number}.mp3`
     );
   } catch (error) {
     console.error("Failed to fetch random verse:", error);
@@ -36,20 +33,21 @@ export const broadcastVerse = async (bot: TelegramBot) => {
     // Get all chat IDs from MongoDB
     const chats = await Chat.find({}, "chatId");
     const chatIds = chats.map((chat) => chat.chatId);
+    if (!quraan) return;
+    const message =
+      messages.verseMessage(quraan) +
+      "\n\u200F-----------------\n\n" +
+      messages.tafsirMessage(quraan);
 
+    console.log(
+      `Sending broadcast message of ${new Date().toISOString()} to this chatIds:`
+    );
     console.log(chatIds);
 
-    // here show houre after that show the date
-    console.log(`Sending broadcast message of ${new Date().toISOString()} `);
-
     // Send messages to each chat
-    if (!quraan) return;
     for (const chatId of chatIds) {
       try {
-        await bot.sendMessage(chatId, messages.verseMessage(quraan), {
-          parse_mode: "Markdown",
-        });
-        await bot.sendMessage(chatId, messages.tafsirMessage(quraan), {
+        await bot.sendMessage(chatId, message, {
           parse_mode: "Markdown",
         });
       } catch (error) {

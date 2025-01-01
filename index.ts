@@ -7,7 +7,6 @@ import { isProduction } from "./server/utils/constant";
 import { errorHandler } from "./server/middleware/error.handling.middleware";
 import { connectMongoDB } from "./server/config/db";
 import mainRoutes from "./server/routes/index";
-import { messages } from "./server/bot/utils/messages.utils";
 import './server/bot';
 import './server/utils/cron.job'
 import { limiter } from "./server/middleware/rate.limit.middleware";
