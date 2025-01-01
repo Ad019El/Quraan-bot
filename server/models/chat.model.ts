@@ -23,6 +23,20 @@ const chat = new Schema({
   chatFirstName: {
     type: String,
   },
+  preferences: {
+    notifications: {
+      type: Boolean,
+      default: true,
+    },
+    tafsir: {
+      type: String,
+      default: "ar.muyassar",
+    },
+    chaikh: {
+      type: String,
+      default: "ar.husarymujawwad",
+    },
+  },
   date: {
     type: String,
   },

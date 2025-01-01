@@ -25,7 +25,6 @@ export const keyboards = {
     ],
     resize_keyboard: true,
   },
-  // settings about the bot, notifications and other settings related to quran change tafsir, change chaikh etc
   settings: {
     keyboard: [
       [{ text: "🔔 تفعيل الإشعارات" }, { text: "🔕 إيقاف الإشعارات" }],

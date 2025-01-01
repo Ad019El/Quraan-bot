@@ -31,7 +31,10 @@ export const broadcastVerse = async (bot: TelegramBot) => {
   try {
     const quraan = await getRandomAyahWithTafsir();
     // Get all chat IDs from MongoDB
-    const chats = await Chat.find({}, "chatId");
+    const chats = await Chat.find(
+      { "preferences.notifications": true },
+      "chatId"
+    );
     const chatIds = chats.map((chat) => chat.chatId);
     if (!quraan) return;
     const message =
