@@ -16,7 +16,7 @@ export const initializeBot = (token: string) => {
   bot.onText(/\/start/, (msg) => handleStart(bot, msg));
   bot.onText(/\/help/, (msg) => handleHelp(bot, msg));
   bot.onText(/\/random/, (msg) => handleRandomVerse(bot, msg));
-  bot.onText(/.*/, (msg) => console.log(msg.text));
+  // bot.onText(/.*/, (msg) => console.log(msg.text));
 
   // Keyboard handlers
   bot.on("message", async (msg) => {
