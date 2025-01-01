@@ -1,6 +1,7 @@
 import TelegramBot from 'node-telegram-bot-api';
 import Chat from '../../models/chat.model';
 import { messages } from '../utils/messages.utils';
+import { keyboards } from '../utils/keyboards.utils';
 
 export const handleStart = async (bot: TelegramBot, msg: TelegramBot.Message) => {
   const chatId = msg.chat.id;
@@ -10,7 +11,8 @@ export const handleStart = async (bot: TelegramBot, msg: TelegramBot.Message) =>
   if (existingChat) {
     await bot.sendMessage(
       chatId,
-      messages.welcomeBack(msg)
+      messages.welcomeBack(msg),
+      { reply_markup: keyboards.main }
     );
     return;
   }
@@ -29,6 +31,7 @@ export const handleStart = async (bot: TelegramBot, msg: TelegramBot.Message) =>
   
   await bot.sendMessage(
     chatId,
-    messages.welcome(msg)
+    messages.welcome(msg),
+    { reply_markup: keyboards.main }
   );
 };
