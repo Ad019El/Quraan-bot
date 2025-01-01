@@ -50,3 +50,20 @@ export const getRandomAyahWithTafsir = async (): Promise<
     console.log(error);
   }
 };
+
+// export const getSurahByName = async (name: string) => {
+//   try {
+//     const surah = await Surah.findOne({ name: name });
+//     if (!surah) return;
+
+//     const ayahs = await Ayah.find({ surah: surah._id });
+
+//     console.log(ayahs.map((ayah) => ayah.text));
+
+//     return ayahs.map(
+//       (ayah, index) => ayah.text + ` (${index + 1})`
+//     );
+//   } catch (error) {
+//     console.log(error);
+//   }
+// };

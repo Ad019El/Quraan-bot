@@ -7,6 +7,8 @@ import {
   handleNotificationToggle,
 } from "../services/settings.service";
 import { chikhs } from "../utils/chikhIdentifier.utils";
+import { surahList } from "../../utils/constant";
+// import { getSurahByName } from "../services/quran.service";
 
 export const handleKeyboardCommands = async (
   bot: TelegramBot,
@@ -23,10 +25,19 @@ export const handleKeyboardCommands = async (
   }
 
   if (chikhs[text as keyof typeof chikhs]) {
-    handleChikhChange(msg);
-    await bot.sendMessage(chatId, `تم تغيير القارئ إلى ${text}`);
+    handleChikhChange(bot, msg);
     return;
   }
+
+//   if (surahList.includes(text as string)) {
+//     const surah = await getSurahByName(msg.text as string);
+//     if (!surah) return;
+//     const message = `${text}:\n\n${surah}`;
+//     await bot.sendMessage(chatId, message, {
+//       parse_mode: "Markdown",
+//     });
+//     return;
+//   }
 
   switch (text) {
     case "🎲 إختيار عشوائي للآية من القرآن الكريم":
@@ -41,16 +52,19 @@ export const handleKeyboardCommands = async (
       });
       break;
     case "🔔 تفعيل الإشعارات":
-      await handleNotificationToggle(msg, true);
-      bot.sendMessage(chatId, "تم تفعيل الإشعارات");
+      await handleNotificationToggle(bot, msg, true);
       break;
     case "🔕 إيقاف الإشعارات":
-      await handleNotificationToggle(msg, false);
-      bot.sendMessage(chatId, "تم إيقاف الإشعارات");
+      await handleNotificationToggle(bot, msg, false);
       break;
     case "🎙 تغيير القارئ":
       await bot.sendMessage(chatId, "تغيير القارئ:", {
         reply_markup: keyboards.settings_chikh_list,
+      });
+      break;
+    case "📖 اسماء سور القرآن الكريم":
+      await bot.sendMessage(chatId, "اسماء سور القرآن الكريم:", {
+        reply_markup: keyboards.surahs,
       });
       break;
   }

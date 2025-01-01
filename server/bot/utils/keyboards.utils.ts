@@ -1,30 +1,38 @@
+import { surahList } from "../../utils/constant";
+
 export const keyboards = {
   main: {
     keyboard: [
       [{ text: "🎲 إختيار عشوائي للآية من القرآن الكريم" }],
-      [{ text: "📖 تصفح القرآن" }],
+      [{ text: "📖 اسماء سور القرآن الكريم" }],
       [{ text: "⚙️ الإعدادات" }],
     ],
     resize_keyboard: true,
     one_time_keyboard: false,
   },
 
-  browse: {
+  surahs: {
     keyboard: [
-      [{ text: "📚 السور" }, { text: "🔍 البحث بالرقم" }],
-      [{ text: "📑 الفهرس" }, { text: "🔖 العلامات" }],
+      ...surahList.reduce<Array<Array<{ text: string }>>>(
+        (rows, surah, index) => {
+          if (index % 2 === 0) {
+            // Start new row
+            rows.push([{ text: Number(index + 1) + ": " + surah }]);
+          } else {
+            // Add to last row
+            rows[rows.length - 1].push({
+              text: Number(index + 1) + ": " + surah,
+            });
+          }
+          return rows;
+        },
+        []
+      ),
       [{ text: "⬅️ رجوع للقائمة الرئيسية" }],
     ],
     resize_keyboard: true,
   },
 
-  audio: {
-    settings: [
-      [{ text: "المصحف المرتل" }, { text: "المصحف المجود" }],
-      [{ text: "⬅️ رجوع للقائمة الرئيسية" }],
-    ],
-    resize_keyboard: true,
-  },
   settings: {
     keyboard: [
       [{ text: "🔔 تفعيل الإشعارات" }, { text: "🔕 إيقاف الإشعارات" }],

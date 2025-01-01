@@ -25,10 +25,6 @@ export const handleRandomVerse = async (
       parse_mode: "Markdown",
     });
 
-    console.log(
-      `https://cdn.islamic.network/quran/audio/${bitrate}/${chikh}/${ayahNumber}.mp3`
-    );
-
     await bot.sendAudio(
       msg?.chat?.id as ChatId,
       `https://cdn.islamic.network/quran/audio/${bitrate}/${chikh}/${ayahNumber}.mp3`

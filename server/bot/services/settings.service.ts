@@ -3,6 +3,7 @@ import Chat from "../../models/chat.model";
 import { getChikhOrIdentifier } from "../utils/chikhIdentifier.utils";
 
 export const handleNotificationToggle = async (
+  bot: TelegramBot,
   msg: TelegramBot.Message,
   enable: boolean
 ) => {
@@ -16,6 +17,9 @@ export const handleNotificationToggle = async (
       chat.preferences.notifications = enable;
     }
 
+    if (enable) await bot.sendMessage(chatId, "تم تفعيل الإشعارات");
+    else await bot.sendMessage(chatId, "تم إيقاف الإشعارات");
+
     await chat.save();
   } catch (error) {
     console.error(
@@ -28,6 +32,7 @@ export const handleNotificationToggle = async (
 };
 
 export const handleChikhChange = async (
+  bot: TelegramBot,
   msg: TelegramBot.Message
 ) => {
   try {
@@ -38,6 +43,8 @@ export const handleChikhChange = async (
     if (chat.preferences) {
       chat.preferences.chaikh = getChikhOrIdentifier(msg.text || "").identifier;
     }
+
+    await bot.sendMessage(chatId, `تم تغيير القارئ إلى ${msg.text}`);
 
     await chat.save();
   } catch (error) {
