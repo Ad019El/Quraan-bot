@@ -36,7 +36,7 @@ export const handleChikhChange = async (
 
     if (!chat) return;
     if (chat.preferences) {
-      chat.preferences.chaikh = getChikhOrIdentifier(msg.text || "");
+      chat.preferences.chaikh = getChikhOrIdentifier(msg.text || "").identifier;
     }
 
     await chat.save();

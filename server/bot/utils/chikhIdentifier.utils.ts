@@ -20,14 +20,53 @@ export const chikhs: { [key: string]: string } = {
   "أيمن سويد": "ar.aymanswoaid",
 };
 
-export const getChikhOrIdentifier = (identifierOrName: string): string => {
-  if (chikhs[identifierOrName as keyof typeof chikhs]) {
-    return chikhs[identifierOrName as keyof typeof chikhs] || "";
+const chikhBitrates: { [key: string]: number[] } = {
+  "ar.abdulbasitmurattal": [64, 192],
+  "ar.abdullahbasfar": [32, 64, 192],
+  "ar.abdurrahmaansudais": [64, 192],
+  "ar.abdulsamad": [64],
+  "ar.shaatree": [64, 128],
+  "ar.ahmedajamy": [64, 128],
+  "ar.alafasy": [64, 128],
+  "ar.hanirifai": [64, 192],
+  "ar.husary": [64, 128],
+  "ar.husarymujawwad": [64, 128],
+  "ar.hudhaify": [32, 64, 128],
+  "ar.ibrahimakhbar": [32],
+  "ar.mahermuaiqly": [64, 128],
+  "ar.minshawi": [128],
+  "ar.minshawimujawwad": [64],
+  "ar.muhammadayyoub": [128],
+  "ar.muhammadjibreel": [128],
+  "ar.saoodshuraym": [64],
+  "ar.aymanswoaid": [64],
+};
+
+interface ChikhResponse {
+  identifier: string;
+  bitrate: number;
+}
+
+export const getChikhOrIdentifier = (identifierOrName: string): ChikhResponse => {
+  let identifier: string;
+  
+  if (chikhs[identifierOrName]) {
+    identifier = chikhs[identifierOrName];
   } else {
-    return (
-      Object.keys(chikhs).find(
-        (key) => chikhs[key as keyof typeof chikhs] === identifierOrName
-      ) || ""
-    );
+    identifier = Object.keys(chikhs).find(
+      key => chikhs[key] === identifierOrName
+    ) || "";
   }
+
+  if (!identifier) {
+    return { identifier: "", bitrate: 0 };
+  }
+
+  const availableBitrates = chikhBitrates[identifierOrName] || [128];
+
+  // Default to highest available bitrate
+  return { 
+    identifier, 
+    bitrate: Math.max(...availableBitrates)
+  };
 };

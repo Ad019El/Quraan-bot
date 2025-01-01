@@ -15,6 +15,7 @@ export const handleRandomVerse = async (
     const ayahNumber = quraan?.ayah?.number;
     const chat = await Chat.findOne({ chatId: msg?.chat?.id });
     const chikh = chat?.preferences?.chaikh;
+    const bitrate = getChikhOrIdentifier(chikh || "").bitrate;
     const message =
       messages.verseMessage(quraan) +
       "\n\u200F-----------------\n\n" +
@@ -23,11 +24,14 @@ export const handleRandomVerse = async (
     await bot.sendMessage(msg?.chat?.id as number, message, {
       parse_mode: "Markdown",
     });
-    console.log(`https://cdn.islamic.network/quran/audio/128/${chikh}/${ayahNumber}.mp3`)
+
+    console.log(
+      `https://cdn.islamic.network/quran/audio/${bitrate}/${chikh}/${ayahNumber}.mp3`
+    );
 
     await bot.sendAudio(
       msg?.chat?.id as ChatId,
-      `https://cdn.islamic.network/quran/audio/128/${chikh}/${ayahNumber}.mp3`
+      `https://cdn.islamic.network/quran/audio/${bitrate}/${chikh}/${ayahNumber}.mp3`
     );
   } catch (error) {
     console.error("Failed to fetch random verse:", error);
@@ -59,12 +63,13 @@ export const broadcastVerse = async (bot: TelegramBot) => {
       try {
         const chat = await Chat.findOne({ chatId: chatId });
         const chikh = chat?.preferences?.chaikh;
+        const bitrate = getChikhOrIdentifier(chikh || "").bitrate;
         await bot.sendMessage(chatId, message, {
           parse_mode: "Markdown",
         });
         await bot.sendAudio(
           chatId as ChatId,
-          `https://cdn.islamic.network/quran/audio/128/${chikh}/${quraan?.ayah?.number}.mp3`
+          `https://cdn.islamic.network/quran/audio/${bitrate}/${chikh}/${quraan?.ayah?.number}.mp3`
         );
       } catch (error) {
         console.error(`Failed to send message to chat ${chatId}:`, error);
