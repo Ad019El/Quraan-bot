@@ -2,7 +2,11 @@ import TelegramBot from "node-telegram-bot-api";
 import { keyboards } from "../utils/keyboards.utils";
 import { handleRandomVerse } from "./quran.command";
 import { handleHelp } from "./help.command";
-import { handleNotificationToggle } from "../services/settings.service";
+import {
+  handleChikhChange,
+  handleNotificationToggle,
+} from "../services/settings.service";
+import { chikhs } from "../utils/chikhIdentifier.utils";
 
 export const handleKeyboardCommands = async (
   bot: TelegramBot,
@@ -15,6 +19,12 @@ export const handleKeyboardCommands = async (
     await bot.sendMessage(chatId, "القائمة الرئيسية:", {
       reply_markup: keyboards.main,
     });
+    return;
+  }
+
+  if (chikhs[text as keyof typeof chikhs]) {
+    handleChikhChange(msg);
+    await bot.sendMessage(chatId, `تم تغيير القارئ إلى ${text}`);
     return;
   }
 
@@ -37,6 +47,11 @@ export const handleKeyboardCommands = async (
     case "🔕 إيقاف الإشعارات":
       await handleNotificationToggle(msg, false);
       bot.sendMessage(chatId, "تم إيقاف الإشعارات");
+      break;
+    case "🎙 تغيير القارئ":
+      await bot.sendMessage(chatId, "تغيير القارئ:", {
+        reply_markup: keyboards.settings_chikh_list,
+      });
       break;
   }
 };
