@@ -50,6 +50,10 @@ export const broadcastVerse = async (bot: TelegramBot) => {
         await bot.sendMessage(chatId, message, {
           parse_mode: "Markdown",
         });
+        await bot.sendAudio(
+          chatId as ChatId,
+          `https://cdn.islamic.network/quran/audio/128/ar.husarymujawwad/${quraan?.ayah?.number}.mp3`
+        );
       } catch (error) {
         console.error(`Failed to send message to chat ${chatId}:`, error);
       }
