@@ -8,6 +8,13 @@ import {
 } from "../services/settings.service";
 import { chikhs } from "../utils/chikhIdentifier.utils";
 import { surahList } from "../../utils/constant";
+import {
+    addFeedbackMessage,
+  endFeedbackSession,
+  saveFeedback,
+  startFeedbackSession,
+  userStates,
+} from "../services/feedback.service";
 // import { getSurahByName } from "../services/quran.service";
 
 export const handleKeyboardCommands = async (
@@ -29,15 +36,15 @@ export const handleKeyboardCommands = async (
     return;
   }
 
-//   if (surahList.includes(text as string)) {
-//     const surah = await getSurahByName(msg.text as string);
-//     if (!surah) return;
-//     const message = `${text}:\n\n${surah}`;
-//     await bot.sendMessage(chatId, message, {
-//       parse_mode: "Markdown",
-//     });
-//     return;
-//   }
+  //   if (surahList.includes(text as string)) {
+  //     const surah = await getSurahByName(msg.text as string);
+  //     if (!surah) return;
+  //     const message = `${text}:\n\n${surah}`;
+  //     await bot.sendMessage(chatId, message, {
+  //       parse_mode: "Markdown",
+  //     });
+  //     return;
+  //   }
 
   switch (text) {
     case "🎲 إختيار عشوائي للآية من القرآن الكريم":
@@ -66,6 +73,43 @@ export const handleKeyboardCommands = async (
       await bot.sendMessage(chatId, "اسماء سور القرآن الكريم:", {
         reply_markup: keyboards.surahs,
       });
+      break;
+    case "🌟 شارك اقتراحاتك":
+      await bot.sendMessage(
+        chatId,
+        "يرجى كتابة رأيك (يمكنك إرسال عدة رسائل)\nعند الانتهاء اضغط على 'إنهاء'",
+        {
+          reply_markup: {
+            keyboard: [[{ text: "✅ إنهاء" }], [{ text: "❌ إلغاء" }]],
+            resize_keyboard: true,
+          },
+        }
+      );
+      startFeedbackSession(chatId);
+      break;
+    case "✅ إنهاء":
+      const feedback = endFeedbackSession(chatId);
+      
+      if (feedback.length > 0) {
+        // Save feedback to database
+        await saveFeedback(msg, feedback);
+        await bot.sendMessage(chatId, "بارك الله فيك, شكراً على رأيك", {
+          reply_markup: keyboards.main,
+        });
+      }
+      break;
+
+    case "❌ إلغاء":
+      endFeedbackSession(chatId);
+      await bot.sendMessage(chatId, "تم إلغاء العملية", {
+        reply_markup: keyboards.main,
+      });
+      break;
+    default:
+      // If user is in feedback session, collect messages
+      if (userStates.get(chatId)?.isCollecting) {
+        addFeedbackMessage(chatId, text as string);
+      }
       break;
   }
 };

@@ -10,9 +10,13 @@ export const messages = {
       "⚙️ *إعداداتك الحالية:*",
       `${chat?.preferences?.notifications ? "✅" : "❌"} الإشعارات`,
       `🎙 القارئ: ${
-        getChikhOrIdentifier(chat?.preferences?.chaikh).identifier || "لم يتم الإختيار"
+        getChikhOrIdentifier(chat?.preferences?.chaikh).identifier ||
+        "لم يتم الإختيار"
       }`,
       `📖 التفسير: ${chat?.preferences?.tafsir || "الميسر"}`,
+      "",
+      "📢 *تنبيه:*",
+      "سيتم إرسال 3 آيات يومياً",
       "",
       "💡 يمكنك تغيير الإعدادات باستخدام /settings",
     ].join("\n"),
@@ -23,9 +27,13 @@ export const messages = {
       "⚙️ *إعداداتك الحالية:*",
       `${chat?.preferences?.notifications ? "✅" : "❌"} الإشعارات`,
       `🎙 القارئ: ${
-        getChikhOrIdentifier(chat?.preferences?.chaikh).identifier || "لم يتم الإختيار"
+        getChikhOrIdentifier(chat?.preferences?.chaikh).identifier ||
+        "لم يتم الإختيار"
       }`,
       `📖 التفسير: ${chat?.preferences?.tafsir || "الميسر"}`,
+      "",
+      "📢 *تنبيه:*",
+      "سيتم إرسال 3 آيات يومياً",
       "",
       "💡 يمكنك تغيير الإعدادات باستخدام /settings",
     ].join("\n"),

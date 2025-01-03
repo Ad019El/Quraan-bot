@@ -43,3 +43,8 @@ export interface QuranResponse {
   ayah: AyahData;
   ayahTafsir: TafsirData;
 }
+
+export interface FeedbackState {
+  isCollecting: boolean;
+  messages: string[];
+}
