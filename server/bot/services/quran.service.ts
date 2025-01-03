@@ -3,7 +3,7 @@ import {
   Baghawi,
   Jalalayn,
   Qurtubi,
-  Tafsir,
+  Muyassar,
   Waseet,
 } from "../../models/quraan/ayah.model";
 import Edition from "../../models/quraan/edition.model";
@@ -14,7 +14,7 @@ import { Chat, QuranResponse } from "../types/bot.types";
 const getTafsirModel = (tafsir: string) => {
   switch (tafsir) {
     case "ar.muyassar":
-      return Tafsir;
+      return Muyassar;
     case "ar.jalalayn":
       return Jalalayn;
     case "ar.qurtubi":
@@ -24,7 +24,7 @@ const getTafsirModel = (tafsir: string) => {
     case "ar.baghawi":
       return Baghawi;
     default:
-      return Tafsir;
+      return Muyassar;
   }
 };
 

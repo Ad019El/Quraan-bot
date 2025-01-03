@@ -54,7 +54,7 @@ const ayahSchema = new mongoose.Schema({
   },
 });
 
-const tafsirSchema = new mongoose.Schema({
+const muyassarSchema = new mongoose.Schema({
   number: {
     type: Number,
     required: true,
@@ -180,10 +180,10 @@ const waseetSchema = new mongoose.Schema({
 });
 
 const Ayah = mongoose.model("Ayah", ayahSchema);
-const Tafsir = mongoose.model("Tafsir", tafsirSchema);
+const Muyassar = mongoose.model("Muyassar", muyassarSchema);
 const Baghawi = mongoose.model("Baghawi", baghawiSchema);
 const Jalalayn = mongoose.model("Jalalayn", jalalaynSchema);
 const Qurtubi = mongoose.model("Qurtubi", qurtubiSchema);
 const Waseet = mongoose.model("Waseet", waseetSchema);
 
-export { Ayah, Tafsir, Baghawi, Jalalayn, Qurtubi, Waseet };
+export { Ayah, Muyassar, Baghawi, Jalalayn, Qurtubi, Waseet };
