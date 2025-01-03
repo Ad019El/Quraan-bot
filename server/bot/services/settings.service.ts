@@ -1,6 +1,7 @@
 import TelegramBot from "node-telegram-bot-api";
 import Chat from "../../models/chat.model";
 import { getChikhOrIdentifier } from "../utils/chikhIdentifier.utils";
+import { getTafsirIdentifier } from "../utils/tafsirIdentifier.utils";
 
 export const handleNotificationToggle = async (
   bot: TelegramBot,
@@ -56,3 +57,27 @@ export const handleChikhChange = async (
     );
   }
 };
+
+export const handleTafsirChange = async (bot: TelegramBot, msg: TelegramBot.Message) => {
+  try {
+    const chatId = msg.chat.id;
+    const chat = await Chat.findOne({ chatId: chatId });
+
+    if (!chat) return;
+    if (chat.preferences) {
+      chat.preferences.tafsir = getTafsirIdentifier(msg.text || "");
+    }
+
+    await bot.sendMessage(chatId, `تم تغيير التفسير إلى ${msg.text}`);
+
+    await chat.save();
+    
+  } catch (error) {
+    console.error(
+      "Failed to change tafsir for chat:",
+      msg.chat.id,
+      "\nwith error: ",
+      error
+    );
+  }
+}

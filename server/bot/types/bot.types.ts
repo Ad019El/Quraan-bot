@@ -48,3 +48,18 @@ export interface FeedbackState {
   isCollecting: boolean;
   messages: string[];
 }
+
+export interface Chat {
+  chatId: number;
+  messageId: number;
+  isBot: boolean;
+  chatType: string;
+  chatUsername?: string | null;
+  chatFirstName?: string | null;
+  preferences?: {
+    notifications: boolean;
+    tafsir: string;
+    chaikh: string;
+  } | null;
+  date?: string | null;
+}

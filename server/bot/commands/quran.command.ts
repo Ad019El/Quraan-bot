@@ -9,11 +9,11 @@ export const handleRandomVerse = async (
   msg?: TelegramBot.Message
 ) => {
   try {
-    const quraan = await getRandomAyahWithTafsir();
+    const chat = await Chat.findOne({ chatId: msg?.chat?.id });
+    const quraan = await getRandomAyahWithTafsir(chat);
     if (!quraan) return;
     // get chat by chatId
     const ayahNumber = quraan?.ayah?.number;
-    const chat = await Chat.findOne({ chatId: msg?.chat?.id });
     const chikh = chat?.preferences?.chaikh;
     const bitrate = getChikhOrIdentifier(chikh || "").bitrate;
     const message =

@@ -1,24 +1,52 @@
-import { Ayah, Tafsir } from "../../models/quraan/ayah.model";
+import {
+  Ayah,
+  Baghawi,
+  Jalalayn,
+  Qurtubi,
+  Tafsir,
+  Waseet,
+} from "../../models/quraan/ayah.model";
 import Edition from "../../models/quraan/edition.model";
 import Page from "../../models/quraan/page.model";
 import Surah from "../../models/quraan/surah.model";
-import { QuranResponse } from "../types/bot.types";
+import { Chat, QuranResponse } from "../types/bot.types";
 
-export const getRandomAyahWithTafsir = async (): Promise<
-  QuranResponse | undefined
-> => {
+const getTafsirModel = (tafsir: string) => {
+  switch (tafsir) {
+    case "ar.muyassar":
+      return Tafsir;
+    case "ar.jalalayn":
+      return Jalalayn;
+    case "ar.qurtubi":
+      return Qurtubi;
+    case "ar.waseet":
+      return Waseet;
+    case "ar.baghawi":
+      return Baghawi;
+    default:
+      return Tafsir;
+  }
+};
+
+export const getRandomAyahWithTafsir = async (
+  chat?: Chat | null
+): Promise<QuranResponse | undefined> => {
   try {
     const surah = await Surah.aggregate([{ $sample: { size: 1 } }]);
     // todo add edition for tafsir as a parameter
     const edition = await Edition.find({ identifier: "quran-simple" });
-    const tafsirEdition = await Edition.find({ identifier: "ar.muyassar" });
+    const tafsirEdition = await Edition.find({
+      identifier: chat?.preferences?.tafsir || "ar.muyassar",
+    });
 
     const ayah = await Ayah.aggregate([
       { $match: { surah: surah[0]._id, edition: edition[0]._id } },
       { $sample: { size: 1 } },
     ]);
 
-    const ayahTafsir = await Tafsir.aggregate([
+    const ayahTafsir = await getTafsirModel(
+      chat?.preferences?.tafsir || "ar.muyassar"
+    ).aggregate([
       { $match: { number: ayah[0].number, edition: tafsirEdition[0]._id } },
     ]);
 

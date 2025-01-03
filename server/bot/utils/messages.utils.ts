@@ -1,6 +1,7 @@
 import { Message } from "node-telegram-bot-api";
 import { QuranResponse } from "../types/bot.types";
 import { getChikhOrIdentifier } from "./chikhIdentifier.utils";
+import { getTafsirIdentifier } from "./tafsirIdentifier.utils";
 
 export const messages = {
   welcome: (msg: Message, chat: any) =>
@@ -13,7 +14,9 @@ export const messages = {
         getChikhOrIdentifier(chat?.preferences?.chaikh).identifier ||
         "لم يتم الإختيار"
       }`,
-      `📖 التفسير: ${chat?.preferences?.tafsir || "الميسر"}`,
+      `📖 التفسير: ${
+        getTafsirIdentifier(chat?.preferences?.tafsir) || "الميسر"
+      }`,
       "",
       "📢 *تنبيه:*",
       "سيتم إرسال 3 آيات يومياً",
@@ -30,7 +33,9 @@ export const messages = {
         getChikhOrIdentifier(chat?.preferences?.chaikh).identifier ||
         "لم يتم الإختيار"
       }`,
-      `📖 التفسير: ${chat?.preferences?.tafsir || "الميسر"}`,
+      `📖 التفسير: ${
+        getTafsirIdentifier(chat?.preferences?.tafsir) || "الميسر"
+      }`,
       "",
       "📢 *تنبيه:*",
       "سيتم إرسال 3 آيات يومياً",
