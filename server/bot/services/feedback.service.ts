@@ -25,12 +25,17 @@ export const saveFeedback = async (
   msg: TelegramBot.Message,
   messages: string[]
 ) => {
-  const feedbackMessages = {
-    chatId: msg.chat.id,
-    firstName: msg.chat.first_name,
-    username: msg.chat.username,
-    messages,
-  };
-  const feedback = new Feedback(feedbackMessages);
-  await feedback.save();
+  try {
+    const feedbackMessages = {
+      chatId: msg?.chat?.id,
+      firstName: msg?.chat?.first_name || "",
+      username: msg?.chat?.username || "",
+      messages,
+    };
+    const feedback = new Feedback(feedbackMessages);
+    await feedback.save();
+    console.log("Feedback saved successfully"); 
+  } catch (error) {
+    console.error("Error saving feedback: ", error);
+  }
 };

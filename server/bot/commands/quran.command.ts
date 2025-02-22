@@ -52,7 +52,7 @@ export const broadcastVerse = async (bot: TelegramBot) => {
     console.log(
       `Sending broadcast message of ${new Date().toISOString()} to this chatIds:`
     );
-    console.log(chatIds);
+    console.table(chatIds);
 
     // Send messages to each chat
     for (const chatId of chatIds) {
